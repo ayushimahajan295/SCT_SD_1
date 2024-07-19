@@ -2,14 +2,14 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class TemperatureConverterGUI extends JFrame {
+public class TemperatureConverter extends JFrame {
 
     private JTextField inputField;
     private JComboBox<String> fromComboBox;
     private JComboBox<String> toComboBox;
     private JLabel resultLabel;
 
-    public TemperatureConverterGUI() {
+    public TemperatureConverter() {
         setTitle("Temperature Converter");
         setSize(300, 200);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -103,7 +103,7 @@ public class TemperatureConverterGUI extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new TemperatureConverterGUI().setVisible(true);
+                new TemperatureConverter().setVisible(true);
             }
         });
     }
