@@ -1,13 +1,12 @@
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class TemperatureConverter extends JFrame {
 
-    private JTextField inputField;
-    private JComboBox<String> fromComboBox;
-    private JComboBox<String> toComboBox;
-    private JLabel resultLabel;
+    private final JTextField inputField;
+    private final JComboBox<String> fromComboBox;
+    private final JComboBox<String> toComboBox;
+    private final JLabel resultLabel;
 
     public TemperatureConverter() {
         setTitle("Temperature Converter");
@@ -43,11 +42,8 @@ public class TemperatureConverter extends JFrame {
 
         JButton convertButton = new JButton("Convert");
         convertButton.setBounds(80, 110, 100, 25);
-        convertButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                convertTemperature();
-            }
+        convertButton.addActionListener((ActionEvent e) -> {
+            convertTemperature();
         });
         add(convertButton);
 
@@ -64,33 +60,27 @@ public class TemperatureConverter extends JFrame {
             double result = 0.0;
 
             switch (fromUnit) {
-                case "Celsius":
-                    if (toUnit.equals("Fahrenheit")) {
-                        result = (inputTemp * 9/5) + 32;
-                    } else if (toUnit.equals("Kelvin")) {
-                        result = inputTemp + 273.15;
-                    } else {
-                        result = inputTemp;
-                    }
-                    break;
-                case "Fahrenheit":
-                    if (toUnit.equals("Celsius")) {
-                        result = (inputTemp - 32) * 5/9;
-                    } else if (toUnit.equals("Kelvin")) {
-                        result = ((inputTemp - 32) * 5/9) + 273.15;
-                    } else {
-                        result = inputTemp;
-                    }
-                    break;
-                case "Kelvin":
-                    if (toUnit.equals("Celsius")) {
-                        result = inputTemp - 273.15;
-                    } else if (toUnit.equals("Fahrenheit")) {
-                        result = ((inputTemp - 273.15) * 9/5) + 32;
-                    } else {
-                        result = inputTemp;
-                    }
-                    break;
+                case "Celsius" -> {
+                    result = switch (toUnit) {
+                    case "Fahrenheit" -> (inputTemp * 9/5) + 32;
+                    case "Kelvin" -> inputTemp + 273.15;
+                    default -> inputTemp;
+                };
+                }
+                case "Fahrenheit" -> {
+                    result = switch (toUnit) {
+                    case "Celsius" -> (inputTemp - 32) * 5/9;
+                    case "Kelvin" -> ((inputTemp - 32) * 5/9) + 273.15;
+                    default -> inputTemp;
+                };
+                }
+                case "Kelvin" -> {
+                    result = switch (toUnit) {
+                    case "Celsius" -> inputTemp - 273.15;
+                    case "Fahrenheit" -> ((inputTemp - 273.15) * 9/5) + 32;
+                    default -> inputTemp;
+                };
+                }
             }
 
             resultLabel.setText("Result: " + result + " " + toUnit);
@@ -100,11 +90,8 @@ public class TemperatureConverter extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new TemperatureConverter().setVisible(true);
-            }
+        SwingUtilities.invokeLater(() -> {
+            new TemperatureConverter().setVisible(true);
         });
     }
 }
